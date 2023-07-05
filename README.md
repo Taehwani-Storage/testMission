@@ -112,3 +112,259 @@
 - 조직 GitHub 연동 문제 발생
 - 개인 GitHub과 조직 GitHub 연동 차이 식별 및 해결
 
+=======
+
+### `POST /items/{itemId}/comments`
+
+Request Body:
+
+```json
+{
+    "writer": "taehwan.mutsa",
+    "password": "likelion0417",
+    "content": "할인 가능하신가요?"
+}
+```
+
+Response Status: 200
+
+Response Body:
+
+```json
+{
+    "message": "댓글이 등록되었습니다."
+}
+```
+
+### `GET /items/{itemId}/comments`
+
+Request Body: 없음
+
+Response Status: 200
+
+Response Body:
+```json
+{
+    "content": [
+        {
+            "id": 1,
+            "content": "할인 가능하신가요?",
+            "reply": "아니요"
+        },
+    ],
+    "totalPages": 4,
+    "totalElements": 100,
+    "last": false,
+    "size": 25,
+    "number": 1,
+    "numberOfElements": 25,
+    "first": false,
+    "empty": false
+}
+```
+### `PUT /items/{itemId}/comments/{commentId}`
+
+Request Body:
+
+  ```json
+  {
+      "writer": "taehwan.mutsa",
+      "password": "likelion0417",
+      "content": "할인 가능하신가요? 1000000 정도면 고려 가능합니다"
+  }
+  ```
+
+Response Body:
+
+  ```json
+  {
+      "message": "댓글이 수정되었습니다."
+  }
+  ```
+
+### `PUT /items/{itemId}/comments/{commentId}/reply`
+
+Request Body:
+
+```json
+{
+    "writer": "taehwan.mutsa",
+    "password": "likelion0417",
+    "reply": "안됩니다"
+}
+```
+
+Response Body:
+
+```json
+{
+    "message": "댓글에 답변이 추가되었습니다."
+}
+```
+### `DELETE /items/{itemId}/comments/{commentId}`
+
+Request Body:
+
+```json
+{
+    "writer": "taehwan.mutsa",
+    "password": "likelion0417"
+}
+```
+
+Response Body:
+```json
+{
+    "message": "댓글을 삭제했습니다."
+}
+```
+
+### `POST /items/{itemId}/proposal`
+
+Request Body:
+
+```json
+{
+    "writer": "taehwan.mutsa",
+    "password": "likelion0417",
+    "suggestedPrice": 1000000
+}
+```
+
+Response Status: 200
+
+Response Body:
+
+```json
+{
+    "message": "구매 제안이 등록되었습니다."
+}
+```
+
+### `GET /items/{itemId}/proposals?writer=jeeho.edu&password=qwerty1234&page=1`
+
+Request Body: 없음
+
+Response Status: 200
+
+Response Body:
+
+```json
+{
+    "content": [
+          {
+            "id": 1,
+                    "suggestedPrice": 1000000,
+            "status": "거절"
+        },
+          {
+            "id": 2,
+                    "suggestedPrice": 1200000,
+            "status": "제안"
+        },
+    ],
+    "totalPages": 4,
+    "totalElements": 100,
+    "last": false,
+    "size": 25,
+    "number": 1,
+    "numberOfElements": 25,
+    "first": false,
+    "empty": false
+}
+```
+
+### `PUT /items/{itemId}/proposals/{proposalId}`
+
+Request Body:
+
+```json
+{
+    "writer": "taehwan.mutsa",
+    "password": "likelion0417",
+    "suggestedPrice": 1100000
+}
+```
+
+Response Body:
+
+```json
+{
+    "message": "제안이 수정되었습니다."
+}
+```
+
+`writer` 와 `password` 가 물품 등록할 때의 값과 일치하지 않을 경우 실패
+
+### `DELETE /items/{itemId}/proposals/{proposalId}`
+
+Request Body:
+
+```json
+{
+    "writer": "taehwan.mutsa",
+    "password": "likelion0417"
+}
+```
+
+Response Body:
+
+```json
+{
+    "message": "제안을 삭제했습니다."
+}
+```
+
+`writer` 와 `password` 가 제안 등록할 때의 값과 일치하지 않을 경우 실패
+
+### `PUT /items/{itemId}/proposals/{proposalId}/progress`
+
+Request Body:
+
+```json
+{
+    "writer": "yoonha.dev",
+    "password": "loveth0214",
+    "status": "수락" || "거절"
+}
+```
+
+Response Body:
+
+```json
+{
+    "message": "제안의 상태가 변경되었습니다."
+}
+```
+
+`writer` 와 `password` 가 물품 등록할 때의 값과 일치하지 않을 경우 실패
+
+### `PUT /items/{itemId}/proposals/{proposalId}/progress`
+
+Request Body:
+
+```json
+{
+    "writer": "taehwan.mutsa",
+    "password": "likelion0417",
+    "status": "확정"
+}
+```
+
+Response Body:
+
+```json
+{
+    "message": "구매가 확정되었습니다."
+}
+```
+
+## 요구사항을 구현하기 위해 집중한 부분
+- JPA 동작 및 사용법을 숙지하기
+- 예외상황 고려하여 확인하기
+- 서버와 사용자 간에 관계 파악하기
+
+## 코드를 작성 시 더 나은 방향으로 생각해보기
+  1. 다른 사람이 봐도 이해할 수 있도록 코드 짜기
+  2. 객체를 사용해서 기능별로 나누어 코드 작성하기
+  3. 현재 짠 코드보다 더 나은 코드가 있는지 찾아보기
